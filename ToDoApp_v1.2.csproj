@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>ToDoApp_v1._2</RootNamespace>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Img\addblue.png" />
+    <None Remove="Img\addgreen.png" />
+    <None Remove="Img\addImg.png" />
+    <None Remove="Img\delete.png" />
+    <None Remove="Img\goback.png" />
+    <None Remove="Img\pencil.png" />
+    <None Remove="Img\view.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Img\addblue.png" />
+    <Resource Include="Img\addgreen.png" />
+    <Resource Include="Img\addImg.png" />
+    <Resource Include="Img\delete.png" />
+    <Resource Include="Img\goback.png" />
+    <Resource Include="Img\pencil.png" />
+    <Resource Include="Img\view.png" />
+  </ItemGroup>
+
+</Project>

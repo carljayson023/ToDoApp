@@ -1,62 +1,79 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using ToDoApp_v1._2.Model;
 
 namespace ToDoApp_v1._2.Repository
 {
-    public class DatalistRepository : IDetalistRepository
+    public class DatalistRepository : IDetalistRepository, IDisposable
     {
-        private readonly DataDbContext context;
+        private DataDbContext context;
 
-        public DatalistRepository(DataDbContext _context)
+        public DatalistRepository(DataDbContext context)
         {
-            this.context = _context;
+            this.context = context;
         }
-        
-        public Datalist GetDatalist(int Id) // Find all Id or get by id
+        public IEnumerable<Datalist> GetAllList() // ----------- get all list
         {
-            return context.Datalists.Find(Id);
-             
+            return context.Datalists.ToList();
+            //throw new NotImplementedException();
+
+        }
+        public Datalist GetListByID(int listId)  //------------ get by id
+        {
+            return context.Datalists.Find(listId);
+            //throw new NotImplementedException();
+        }
+        public void InsertList(Datalist insertList)
+        {
+            context.Datalists.Add(insertList);
+            //throw new NotImplementedException();
+        }
+        public void DeleteList(int listId)  // --------------- delete data
+        {
+            Datalist data = context.Datalists.Find(listId);
+            context.Datalists.Remove(data);
+            //throw new NotImplementedException();
+        }
+        public void UpdateList(Datalist updateList) // ----------------update
+        {
+            context.Entry(updateList).State = EntityState.Modified;
             //throw new NotImplementedException();
         }
 
-        public IEnumerable<Datalist> GetAllDatalist() // Get all Data
+        public void Save()
         {
-
-            return context.Datalists;
-            //throw new NotImplementedException();
-        }
-
-        public Datalist Add(Datalist datalist) // Add to Datalist table
-        {
-            context.Datalists.Add(datalist);
             context.SaveChanges();
-            return datalist;
             //throw new NotImplementedException();
         }
+        //public void Dispose()
+        //{
+        //    throw new NotImplementedException();
+        //}
+        private bool disposed = false;
 
-        public Datalist Update(Datalist datalistChanges)  // Update
+        protected virtual void Dispose(bool disposing)
         {
-            var data_list = context.Datalists.Attach(datalistChanges);
-            data_list.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            context.SaveChanges();
-            return datalistChanges;
-            //throw new NotImplementedException();
-        }
-
-        public Datalist Delete(int id) // -------------------> delete datalist
-        {
-            Datalist _list = context.Datalists.Find(id);
-            if (_list != null)
+            if (!this.disposed)
             {
-                context.Datalists.Remove(_list);
-                context.SaveChanges();
+                if (disposing)
+                {
+                    context.Dispose();
+                }
             }
-            return _list;
-            //throw new NotImplementedException();
+            this.disposed = true;
         }
 
-        
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+
+
+
     }
 }

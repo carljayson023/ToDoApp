@@ -26,6 +26,7 @@ namespace ToDoApp_v1._2
         private readonly DataDbContext _context = new DataDbContext();
 
         private CollectionViewSource datalistViewSource;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -43,12 +44,14 @@ namespace ToDoApp_v1._2
            
 
         }
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e) //----------------- > windows load
         {
             _context.Database.EnsureCreated();
             // load the entities into EF Core
             GetList();
             listDataGrid.SelectedItems.Clear();
+            
+           
         }
         protected override void OnClosing(CancelEventArgs e)
         {
@@ -67,9 +70,10 @@ namespace ToDoApp_v1._2
             
         }
     
-        public void AddItemform(object s, RoutedEventArgs e) // open New form to add new List
+        public void AddItemform(object s, RoutedEventArgs e) // open New form to add new item
         {
             CreateItemForm win3 = new CreateItemForm();
+            win3._ItemDataListId = ListDataId;
             win3.ShowDialog();
 
             listDataGrid.Items.Refresh();
@@ -117,11 +121,15 @@ namespace ToDoApp_v1._2
         public void DeleteItem(object s, RoutedEventArgs e) // -------------------> DELETE data in ITem
         {
             var ItemToDelete = (s as FrameworkElement).DataContext as Itemlist;
+
+            _context.Itemlists.Remove(ItemToDelete);
+            _context.SaveChanges();
             //MessageBox.Show(ItemToDelete.ItemlistId.ToString());
             MessageBox.Show($" {ItemToDelete.Name } has Successfuly Deleted.");
         }
 
         //public static int Global_ListData ;
+        int ListDataId;
         public void View_ListData(object s, RoutedEventArgs e) // --------------> To View All Item Under the List
         {
             btn_CreateList.Visibility = Visibility.Hidden;
@@ -133,6 +141,7 @@ namespace ToDoApp_v1._2
 
            
             var ListData = (s as FrameworkElement).DataContext as Datalist;
+            ListDataId = ListData.DatalistId; //-------------------------------> ssend id to createItemForm
             //Global_ListData = ListData.DatalistId;
         }
         public void BacktoListView(object s, RoutedEventArgs e) // --------------> back to list View data

@@ -41,6 +41,7 @@ namespace ToDoApp_v1._2
         }
         private void AddList(object s, RoutedEventArgs e)
         {
+            //MessageBox.Show(_listController._GetAllList().ToString());
             //MessageBox.Show(_ListId.ToString());
             if (ListDescription.Text.Trim() != "" && ListName.Text.Trim() != "")
             {
@@ -52,13 +53,16 @@ namespace ToDoApp_v1._2
                         Name = ListName.Text,
                         Description = ListDescription.Text
                     };
-
+                    //_listController._GetAllList();
+                    //MessageBox.Show("Data has Successfuly Updated");
                     //MessageBox.Show(_listController.UpdateList_Class(updateDataList)); // Update Data by Manual
-                    
+
                 }
                 else
                 {
+                    //MessageBox.Show(_listController.GetAllList().ToString());
                     //MessageBox.Show(_listController.AddList_Class(Newlist)); // Add Data by Binding
+                    MessageBox.Show(_listController.AddList(Newlist));
 
                 }
                 this.Close();
